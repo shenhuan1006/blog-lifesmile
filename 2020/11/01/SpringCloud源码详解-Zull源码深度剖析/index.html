@@ -75,7 +75,7 @@
 
 
 
-  <meta name="keywords" content="Spring,源码解析,">
+  <meta name="keywords" content="源码解析,SpringCloud源码,">
 
 
 
@@ -88,18 +88,30 @@
 
 
 
-<meta name="description" content="定期将学习内容整理笔记,进行分享,若你也准备学习或者正在学习可以添加我微信(ID:ad769622293),我将组建一个微信群,然后大家一起监督学习,相互讨论,相互学习. 1.获取源码1.1方式1:Github下载(可能出现编译报错)搜素Spring,找到spring-framework,选择5.x分支.或直接点击GitHub-spring5.x 1.2方式2:百度网盘(编译成功)我以及下载好了,">
-<meta name="keywords" content="Spring,源码解析">
+<meta name="description" content="一、网关的作用​    主要起到请求转发和统一功能的处理。要是没有网关，前端调后台接口的时候就必须知道后端服务的地址，然后自己做分发，要是服务成千上万个前端咋处理？新增下线故障咋搞？另外一个就是把服务公共的东西放到网关，比如鉴权，请求统计等。  二、Zull的核心流程​    Zull简单的说就是一系列的Filter组成的。什么是Filter这个我就不讲了，自己查资料。 ​    请求到网关-&amp;g">
+<meta name="keywords" content="源码解析,SpringCloud源码">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Spring源码搭建">
-<meta property="og:url" content="http://yoursite.com/2019/07/31/Spring源码搭建/index.html">
+<meta property="og:title" content="SpringCloud源码详解_Zull源码深度剖析">
+<meta property="og:url" content="http://yoursite.com/2020/11/01/SpringCloud源码详解-Zull源码深度剖析/index.html">
 <meta property="og:site_name" content="LifeSmile">
-<meta property="og:description" content="定期将学习内容整理笔记,进行分享,若你也准备学习或者正在学习可以添加我微信(ID:ad769622293),我将组建一个微信群,然后大家一起监督学习,相互讨论,相互学习. 1.获取源码1.1方式1:Github下载(可能出现编译报错)搜素Spring,找到spring-framework,选择5.x分支.或直接点击GitHub-spring5.x 1.2方式2:百度网盘(编译成功)我以及下载好了,">
+<meta property="og:description" content="一、网关的作用​    主要起到请求转发和统一功能的处理。要是没有网关，前端调后台接口的时候就必须知道后端服务的地址，然后自己做分发，要是服务成千上万个前端咋处理？新增下线故障咋搞？另外一个就是把服务公共的东西放到网关，比如鉴权，请求统计等。  二、Zull的核心流程​    Zull简单的说就是一系列的Filter组成的。什么是Filter这个我就不讲了，自己查资料。 ​    请求到网关-&amp;g">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2020-06-28T14:28:01.335Z">
+<meta property="og:image" content="http://yoursite.com/2020/11/01/SpringCloud源码详解-Zull源码深度剖析/image-20201101185853146.png">
+<meta property="og:image" content="http://yoursite.com/2020/11/01/SpringCloud源码详解-Zull源码深度剖析/image-20201101210345278.png">
+<meta property="og:image" content="http://yoursite.com/2020/11/01/SpringCloud源码详解-Zull源码深度剖析/image-20201101210456549.png">
+<meta property="og:image" content="http://yoursite.com/2020/11/01/SpringCloud源码详解-Zull源码深度剖析/image-20201101210620895.png">
+<meta property="og:image" content="http://yoursite.com/2020/11/01/SpringCloud源码详解-Zull源码深度剖析/image-20201101210647156.png">
+<meta property="og:image" content="http://yoursite.com/2020/11/01/SpringCloud源码详解-Zull源码深度剖析/image-20201101211700501.png">
+<meta property="og:image" content="http://yoursite.com/2020/11/01/SpringCloud源码详解-Zull源码深度剖析/image-20201101211754008.png">
+<meta property="og:image" content="http://yoursite.com/2020/11/01/SpringCloud源码详解-Zull源码深度剖析/image-20201101212753545.png">
+<meta property="og:image" content="http://yoursite.com/2020/11/01/SpringCloud源码详解-Zull源码深度剖析/image-20201101214235592.png">
+<meta property="og:image" content="http://yoursite.com/2020/11/01/SpringCloud源码详解-Zull源码深度剖析/image-20201101214559324.png">
+<meta property="og:image" content="http://yoursite.com/2020/11/01/SpringCloud源码详解-Zull源码深度剖析/image-20201101224841518.png">
+<meta property="og:updated_time" content="2020-11-01T14:53:41.956Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Spring源码搭建">
-<meta name="twitter:description" content="定期将学习内容整理笔记,进行分享,若你也准备学习或者正在学习可以添加我微信(ID:ad769622293),我将组建一个微信群,然后大家一起监督学习,相互讨论,相互学习. 1.获取源码1.1方式1:Github下载(可能出现编译报错)搜素Spring,找到spring-framework,选择5.x分支.或直接点击GitHub-spring5.x 1.2方式2:百度网盘(编译成功)我以及下载好了,">
+<meta name="twitter:title" content="SpringCloud源码详解_Zull源码深度剖析">
+<meta name="twitter:description" content="一、网关的作用​    主要起到请求转发和统一功能的处理。要是没有网关，前端调后台接口的时候就必须知道后端服务的地址，然后自己做分发，要是服务成千上万个前端咋处理？新增下线故障咋搞？另外一个就是把服务公共的东西放到网关，比如鉴权，请求统计等。  二、Zull的核心流程​    Zull简单的说就是一系列的Filter组成的。什么是Filter这个我就不讲了，自己查资料。 ​    请求到网关-&amp;g">
+<meta name="twitter:image" content="http://yoursite.com/2020/11/01/SpringCloud源码详解-Zull源码深度剖析/image-20201101185853146.png">
 
 
 
@@ -129,13 +141,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/07/31/Spring源码搭建/">
+  <link rel="canonical" href="http://yoursite.com/2020/11/01/SpringCloud源码详解-Zull源码深度剖析/">
 
 
 
 
 
-  <title>Spring源码搭建 | LifeSmile</title>
+  <title>SpringCloud源码详解_Zull源码深度剖析 | LifeSmile</title>
   
 
 
@@ -282,7 +294,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/31/Spring源码搭建/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/11/01/SpringCloud源码详解-Zull源码深度剖析/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Shawn Shen">
@@ -299,7 +311,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Spring源码搭建</h1>
+          <h1 class="post-title" itemprop="name headline">SpringCloud源码详解_Zull源码深度剖析</h1>
         
 
         <div class="post-meta">
@@ -311,8 +323,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-31T13:17:08+08:00">
-                2019-07-31
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-11-01T18:49:41+08:00">
+                2020-11-01
               </time>
             
 
@@ -334,8 +346,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Spring源码解析/" itemprop="url" rel="index">
-                    <span itemprop="name">Spring源码解析</span>
+                  <a href="/categories/SpringCloud源码/" itemprop="url" rel="index">
+                    <span itemprop="name">SpringCloud源码</span>
                   </a>
                 </span>
 
@@ -352,8 +364,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2019/07/31/Spring源码搭建/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2019/07/31/Spring源码搭建/" itemprop="commentCount"></span>
+                <a href="/2020/11/01/SpringCloud源码详解-Zull源码深度剖析/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2020/11/01/SpringCloud源码详解-Zull源码深度剖析/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -361,7 +373,7 @@
 
           
           
-             <span id="/2019/07/31/Spring源码搭建/" class="leancloud_visitors" data-flag-title="Spring源码搭建">
+             <span id="/2020/11/01/SpringCloud源码详解-Zull源码深度剖析/" class="leancloud_visitors" data-flag-title="SpringCloud源码详解_Zull源码深度剖析">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -392,24 +404,58 @@
       
 
       
-        <p>定期将学习内容整理笔记,进行分享,若你也准备学习或者正在学习可以添加我微信(ID:ad769622293),我将组建一个微信群,然后大家一起监督学习,相互讨论,相互学习.</p>
-<h2 id="1-获取源码"><a href="#1-获取源码" class="headerlink" title="1.获取源码"></a>1.获取源码</h2><h3 id="1-1方式1-Github下载-可能出现编译报错"><a href="#1-1方式1-Github下载-可能出现编译报错" class="headerlink" title="1.1方式1:Github下载(可能出现编译报错)"></a>1.1方式1:Github下载(可能出现编译报错)</h3><p>搜素Spring,找到spring-framework,选择5.x分支.或直接点击<a href="https://github.com/spring-projects/spring-framework/tree/5.0.x" target="_blank" rel="noopener">GitHub-spring5.x</a></p>
-<h3 id="1-2方式2-百度网盘-编译成功"><a href="#1-2方式2-百度网盘-编译成功" class="headerlink" title="1.2方式2:百度网盘(编译成功)"></a>1.2方式2:百度网盘(编译成功)</h3><p>我以及下载好了,直接访问百度网盘<a href="https://pan.baidu.com/s/1cXhha2aOaO3hmnk-QyEc9A" target="_blank" rel="noopener">百度网盘-spring5.x</a> 提取码：8leq.,这个是我自己在本地IDEA上编译通过,可以直接导入IDEA使用.</p>
-<p>如果你选择方式二,直接导入Idea,应该就能直接编译成功.下面会整理一些可能出现的编译错误.要是没有涉及到的可以留言.</p>
-<h2 id="2-异常解决"><a href="#2-异常解决" class="headerlink" title="2.异常解决"></a>2.异常解决</h2><h3 id="2-1cglib和objenesis的编译错误解决"><a href="#2-1cglib和objenesis的编译错误解决" class="headerlink" title="2.1cglib和objenesis的编译错误解决"></a>2.1cglib和objenesis的编译错误解决</h3><p><strong>报错位置:</strong> SpringObjenesis.java<br><strong>报错原因:</strong> 为了避免第三方class的冲突，Spring把最新的cglib和objenesis给重新打包（repack ) 了， 它并没有在源码里提供这部分的代码，而是直接将其放在jar包当中，这也就导致了我们拉取 代码后出现编译错误。<br><strong>解决方案:</strong>在spring-core,手动引入cglib和objenesis包</p>
-<h3 id="2-2AspecU编译问题解决"><a href="#2-2AspecU编译问题解决" class="headerlink" title="2.2AspecU编译问题解决"></a>2.2AspecU编译问题解决</h3><p><strong>报错位置:</strong>AspectCachingConfiguration.java 类找不到<br><strong>解决方案:</strong></p>
-<ol>
-<li>下载Aspect」的最新稳定版本</li>
-<li>安装Aspect</li>
-</ol>
-<p>若还有什么问题,可以留言评论…</p>
-<p>更多精彩内容请关注</p>
+        <h2 id="一、网关的作用"><a href="#一、网关的作用" class="headerlink" title="一、网关的作用"></a>一、网关的作用</h2><p>​    主要起到请求转发和统一功能的处理。要是没有网关，前端调后台接口的时候就必须知道后端服务的地址，然后自己做分发，要是服务成千上万个前端咋处理？新增下线故障咋搞？另外一个就是把服务公共的东西放到网关，比如鉴权，请求统计等。</p>
+<p><img src="/2020/11/01/SpringCloud源码详解-Zull源码深度剖析/image-20201101185853146.png" alt="image-20201101185853146"></p>
+<h2 id="二、Zull的核心流程"><a href="#二、Zull的核心流程" class="headerlink" title="二、Zull的核心流程"></a>二、Zull的核心流程</h2><p>​    Zull简单的说就是一系列的Filter组成的。什么是Filter这个我就不讲了，自己查资料。</p>
+<p>​    请求到网关-&gt;Pre Filter -&gt;Route Filter -&gt; Post Filter 返回结果。若其中报错就会到Error Filter。Route Filter会转到对应的服务，执行然后返回结果，再返回给前端。这里先感受下，有个大概的感觉，后面会详细讲这块。可以先看下最后的总结图。</p>
+<h2 id="三、Zull项目的搭建及入门"><a href="#三、Zull项目的搭建及入门" class="headerlink" title="三、Zull项目的搭建及入门"></a>三、Zull项目的搭建及入门</h2><p>​    这个自行去查个资料，然后搭建一个Demo试试，这里就不讲，我这里主要讲源码。</p>
+<h2 id="四、源码详细剖析"><a href="#四、源码详细剖析" class="headerlink" title="四、源码详细剖析"></a>四、源码详细剖析</h2><h3 id="4-1-源码入口"><a href="#4-1-源码入口" class="headerlink" title="4.1 源码入口"></a>4.1 源码入口</h3><p>​    我没在使用Zull的时候，就把pom.xml填加依赖，然后在application.yml中配置些路由，在启动类上加个注解@EnableZuulProxy，然后就能使用了。那么这个入口肯定就是@EnableZuulProxy。</p>
+<p>​    <strong>补充：Zull里面有**</strong>@EnableZuulProxy、@EnableZuulServer两个启动注解。我们看作者写的注释，大概意思是：**</p>
+<p>​        1. Server就是一个单纯的服务，里面啥都没有，需要你自己去写或配置。</p>
+<p>​        2. Proxy就是里面自带一些过滤器，可以直接使用（平时肯定用这个）。</p>
+<h3 id="4-2-研究一下-EnableZuulProxy"><a href="#4-2-研究一下-EnableZuulProxy" class="headerlink" title="4.2 研究一下@EnableZuulProxy"></a>4.2 研究一下@EnableZuulProxy</h3><p>​    进去发现什么都没有，不过看到一个<strong>@Import(ZuulProxyMarkerConfiguration.class)</strong>，点进去看一下，发下也什么都没有，不过注释上写了，Responsible for adding in a marker bean to trigger activation of ZuulProxyAutoConfiguration（触发<strong>ZuulProxyAutoConfiguration）</strong></p>
+<p><img src="/2020/11/01/SpringCloud源码详解-Zull源码深度剖析/image-20201101210345278.png" alt="image-20201101210345278"></p>
+<h3 id="4-3-研究下ZuulProxyAutoConfiguration"><a href="#4-3-研究下ZuulProxyAutoConfiguration" class="headerlink" title="4.3 研究下ZuulProxyAutoConfiguration"></a>4.3 研究下<strong>ZuulProxyAutoConfiguration</strong></h3><p>​    ZuulProxyAutoConfiguration这个类里面都是写bean配置，但是没有发现什么特别的，然后我们再去看下他的父类ZuulServerAutoConfiguration，这面里的内容看起来就比较像样了，什么Filter、Locator、Servlet、初始化什么的，这里有个特别的就是zuulServlet，一般web项目多事Servlet，我们可以在这打个段点，待会启动来看（这里直接就说了，这就是入口）</p>
+<p><img src="/2020/11/01/SpringCloud源码详解-Zull源码深度剖析/image-20201101210456549.png" alt="image-20201101210456549"></p>
+<h3 id="4-4-研究下ZuulServlet"><a href="#4-4-研究下ZuulServlet" class="headerlink" title="4.4 研究下ZuulServlet"></a>4.4 研究下ZuulServlet</h3><p>​    这里面很熟悉，init(),service()方法。初始化的时候搞个ZuulRunner，然后再server的时候使用ZuulRunner来执行各个过滤器。pre-&gt;rout-&gt;post，中途出错的话再支持error，其实大的流程就到这来结束了。下面我们来分析一下，里面的过滤器。</p>
+<p><img src="/2020/11/01/SpringCloud源码详解-Zull源码深度剖析/image-20201101210620895.png" alt="image-20201101210620895"></p>
+<p><img src="/2020/11/01/SpringCloud源码详解-Zull源码深度剖析/image-20201101210647156.png" alt="image-20201101210647156"></p>
+<h3 id="4-5-看下Pre-Filter（preRoute-方法）"><a href="#4-5-看下Pre-Filter（preRoute-方法）" class="headerlink" title="4.5 看下Pre Filter（preRoute()方法）"></a>4.5 看下Pre Filter（preRoute()方法）</h3><p>其实里面就是去拿Filter为pre的所有过滤器，然后根据顺序执行</p>
+<p><img src="/2020/11/01/SpringCloud源码详解-Zull源码深度剖析/image-20201101211700501.png" alt="image-20201101211700501"></p>
+<p><img src="/2020/11/01/SpringCloud源码详解-Zull源码深度剖析/image-20201101211754008.png" alt="image-20201101211754008"></p>
+<p>所有的Pre过滤器及顺序入下，</p>
 <ul>
-<li><p>微信公众号:LifeSmile</p>
-</li>
-<li><p>个人网站:<a href="www.lifesmile.cn">www.lifesmile.cn</a></p>
+<li>-3：ServletDetectionFilter</li>
+<li>-2：Servlet30WrapperFilter</li>
+<li>-1：FromBodyWrapperFilter</li>
+<li>1：DebugFilter</li>
+<li>5：PreDecorationFilter</li>
+</ul>
+<p>我们可以去依次看上面的Pre过滤器，其实都没啥类容，最核心多的就是PreDecorationFilter，简单看下代码，就是去读我们配置带application.yml中的配置，然后进行匹配，换成配置后的路径。本身没有什么技术难度。到此Pre就执行完了。下面看下Routing Filter。</p>
+<h3 id="4-6-Routing-Filter"><a href="#4-6-Routing-Filter" class="headerlink" title="4.6 Routing Filter"></a>4.6 Routing Filter</h3><ul>
+<li><p>10：RibbonRoutingFilter-》将请求转发到对应的服务。</p>
+<p>​    我们看到这里就是先封装一个RibbonCommandContext然后再转发，调用的是forward。这里我们不去看细节，看到Ribbon和Command其实这是跟Ribbon和Hystrix相关，这里我们就简单的理解为转发到对应多的服务，到时候讲完Ribbon和Hystrix在回来看。简单的理解就是，他去注册中心找到对应的服务列表，然后选择一个服务，包装成Hystrix的Command通过Http的方式调用接口执行。</p>
 </li>
 </ul>
+<p><img src="/2020/11/01/SpringCloud源码详解-Zull源码深度剖析/image-20201101212753545.png" alt="image-20201101212753545"></p>
+<ul>
+<li><p>100：SimpleHostRoutingFilter-》将请求转发到具体的url地址</p>
+<p>​    这就是转发到对应的url上，其实很少用，因为我们大部分都是跟注册中心继承的，里面就是对参数啊，url这些进行了处理，然后调用对应的url        </p>
+</li>
+<li><p>500：SendForwardFilter-》将请求转发到zuul网关服务自己的一个接口上去，这个没什么好说的。就是转发到自己的一个接口上</p>
+</li>
+</ul>
+<h3 id="4-7-Post-Filter-返回页面"><a href="#4-7-Post-Filter-返回页面" class="headerlink" title="4.7 Post Filter 返回页面"></a>4.7 Post Filter 返回页面</h3><ul>
+<li><p>1000：SendResponseFilter</p>
+<p>看方法就是，添加了一个返回头，然后再调用OutputStream outStream = servletResponse.getOutputStream();返回到前台，这其实没什么的。</p>
+<p><img src="/2020/11/01/SpringCloud源码详解-Zull源码深度剖析/image-20201101214235592.png" alt="image-20201101214235592"></p>
+<h3 id="4-8-Error-Filter错误过滤器"><a href="#4-8-Error-Filter错误过滤器" class="headerlink" title="4.8 Error Filter错误过滤器"></a>4.8 Error Filter错误过滤器</h3><p>​    SendErrorFilter：之前的pre阶段、route阶段、post阶段，任何一个阶段抛出了异常，都会执行SendErrorFilter</p>
+<p>​    我们可以自己写一个controller，专门来处理zuul的所有异常报错，这样的话就可以实现统一的异常处理，默认情况下会将异常信息输出到浏览器中去，这样体验不是特别好。</p>
+<p><img src="/2020/11/01/SpringCloud源码详解-Zull源码深度剖析/image-20201101214559324.png" alt="image-20201101214559324"></p>
+</li>
+</ul>
+<h2 id="五、总结"><a href="#五、总结" class="headerlink" title="五、总结"></a>五、总结</h2><p>​    其实Zull的源码还是很简单的，大概就是几个Filter的处理，里面涉及的Ribbon和Hystrix后面看完了就知道，他是如何进行限流降级的，他其实就是对Hystrix的使用。下面来一张总结的图。</p>
+<p><img src="/2020/11/01/SpringCloud源码详解-Zull源码深度剖析/image-20201101224841518.png" alt="image-20201101224841518"></p>
 
       
     </div>
@@ -466,9 +512,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Spring/" rel="tag"><i class="fa fa-tag"></i> Spring</a>
-          
             <a href="/tags/源码解析/" rel="tag"><i class="fa fa-tag"></i> 源码解析</a>
+          
+            <a href="/tags/SpringCloud源码/" rel="tag"><i class="fa fa-tag"></i> SpringCloud源码</a>
           
         </div>
       
@@ -481,15 +527,15 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
+              <a href="/2020/08/09/MySQL-01-数据更新的流程？底层如何执行？/" rel="next" title="MySQL_01_数据更新的流程？底层如何执行？">
+                <i class="fa fa-chevron-left"></i> MySQL_01_数据更新的流程？底层如何执行？
+              </a>
+            
           </div>
 
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/08/04/SSO单点登录原理及代码实现/" rel="prev" title="SSO单点登录原理及代码实现">
-                SSO单点登录原理及代码实现 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -660,7 +706,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-获取源码"><span class="nav-number">1.</span> <span class="nav-text">1.获取源码</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1方式1-Github下载-可能出现编译报错"><span class="nav-number">1.1.</span> <span class="nav-text">1.1方式1:Github下载(可能出现编译报错)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2方式2-百度网盘-编译成功"><span class="nav-number">1.2.</span> <span class="nav-text">1.2方式2:百度网盘(编译成功)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-异常解决"><span class="nav-number">2.</span> <span class="nav-text">2.异常解决</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1cglib和objenesis的编译错误解决"><span class="nav-number">2.1.</span> <span class="nav-text">2.1cglib和objenesis的编译错误解决</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2AspecU编译问题解决"><span class="nav-number">2.2.</span> <span class="nav-text">2.2AspecU编译问题解决</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、网关的作用"><span class="nav-number">1.</span> <span class="nav-text">一、网关的作用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、Zull的核心流程"><span class="nav-number">2.</span> <span class="nav-text">二、Zull的核心流程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三、Zull项目的搭建及入门"><span class="nav-number">3.</span> <span class="nav-text">三、Zull项目的搭建及入门</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#四、源码详细剖析"><span class="nav-number">4.</span> <span class="nav-text">四、源码详细剖析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-源码入口"><span class="nav-number">4.1.</span> <span class="nav-text">4.1 源码入口</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-研究一下-EnableZuulProxy"><span class="nav-number">4.2.</span> <span class="nav-text">4.2 研究一下@EnableZuulProxy</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3-研究下ZuulProxyAutoConfiguration"><span class="nav-number">4.3.</span> <span class="nav-text">4.3 研究下ZuulProxyAutoConfiguration</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-4-研究下ZuulServlet"><span class="nav-number">4.4.</span> <span class="nav-text">4.4 研究下ZuulServlet</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-5-看下Pre-Filter（preRoute-方法）"><span class="nav-number">4.5.</span> <span class="nav-text">4.5 看下Pre Filter（preRoute()方法）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-6-Routing-Filter"><span class="nav-number">4.6.</span> <span class="nav-text">4.6 Routing Filter</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-7-Post-Filter-返回页面"><span class="nav-number">4.7.</span> <span class="nav-text">4.7 Post Filter 返回页面</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-8-Error-Filter错误过滤器"><span class="nav-number">4.8.</span> <span class="nav-text">4.8 Error Filter错误过滤器</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#五、总结"><span class="nav-number">5.</span> <span class="nav-text">五、总结</span></a></li></ol></div>
             
 
           </div>

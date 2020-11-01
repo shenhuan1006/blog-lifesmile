@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2020-08-10T03:10:08.626Z</updated>
+  <updated>2020-11-01T14:53:41.956Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,33 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>SpringCloud源码详解_Zull源码深度剖析</title>
+    <link href="http://yoursite.com/2020/11/01/SpringCloud%E6%BA%90%E7%A0%81%E8%AF%A6%E8%A7%A3-Zull%E6%BA%90%E7%A0%81%E6%B7%B1%E5%BA%A6%E5%89%96%E6%9E%90/"/>
+    <id>http://yoursite.com/2020/11/01/SpringCloud源码详解-Zull源码深度剖析/</id>
+    <published>2020-11-01T10:49:41.000Z</published>
+    <updated>2020-11-01T14:53:41.956Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="一、网关的作用"><a href="#一、网关的作用" class="headerlink" title="一、网关的作用"></a>一、网关的作用</h2><p>​    主要起到请求转发和统一功能的处理。要是没有网关，前端调后台接口的时候就必须知道后端服务的地址，然后自己做分发，要是服务成千上万个前端咋处理？新增下线故障咋搞？另外一个就是把服务公共的东西放到网关，比如鉴权，请求统计等。</p><p><img src="/2020/11/01/SpringCloud源码详解-Zull源码深度剖析/image-20201101185853146.png" alt="image-20201101185853146"></p><h2 id="二、Zull的核心流程"><a href="#二、Zull的核心流程" class="headerlink" title="二、Zull的核心流程"></a>二、Zull的核心流程</h2><p>​    Zull简单的说就是一系列的Filter组成的。什么是Filter这个我就不讲了，自己查资料。</p><p>​    请求到网关-&gt;Pre Filter -&gt;Route Filter -&gt; Post Filter 返回结果。若其中报错就会到Error Filter。Route Filter会转到对应的服务，执行然后返回结果，再返回给前端。这里先感受下，有个大概的感觉，后面会详细讲这块。可以先看下最后的总结图。</p><h2 id="三、Zull项目的搭建及入门"><a href="#三、Zull项目的搭建及入门" class="headerlink" title="三、Zull项目的搭建及入门"></a>三、Zull项目的搭建及入门</h2><p>​    这个自行去查个资料，然后搭建一个Demo试试，这里就不讲，我这里主要讲源码。</p><h2 id="四、源码详细剖析"><a href="#四、源码详细剖析" class="headerlink" title="四、源码详细剖析"></a>四、源码详细剖析</h2><h3 id="4-1-源码入口"><a href="#4-1-源码入口" class="headerlink" title="4.1 源码入口"></a>4.1 源码入口</h3><p>​    我没在使用Zull的时候，就把pom.xml填加依赖，然后在application.yml中配置些路由，在启动类上加个注解@EnableZuulProxy，然后就能使用了。那么这个入口肯定就是@EnableZuulProxy。</p><p>​    <strong>补充：Zull里面有**</strong>@EnableZuulProxy、@EnableZuulServer两个启动注解。我们看作者写的注释，大概意思是：**</p><p>​        1. Server就是一个单纯的服务，里面啥都没有，需要你自己去写或配置。</p><p>​        2. Proxy就是里面自带一些过滤器，可以直接使用（平时肯定用这个）。</p><h3 id="4-2-研究一下-EnableZuulProxy"><a href="#4-2-研究一下-EnableZuulProxy" class="headerlink" title="4.2 研究一下@EnableZuulProxy"></a>4.2 研究一下@EnableZuulProxy</h3><p>​    进去发现什么都没有，不过看到一个<strong>@Import(ZuulProxyMarkerConfiguration.class)</strong>，点进去看一下，发下也什么都没有，不过注释上写了，Responsible for adding in a marker bean to trigger activation of ZuulProxyAutoConfiguration（触发<strong>ZuulProxyAutoConfiguration）</strong></p><p><img src="/2020/11/01/SpringCloud源码详解-Zull源码深度剖析/image-20201101210345278.png" alt="image-20201101210345278"></p><h3 id="4-3-研究下ZuulProxyAutoConfiguration"><a href="#4-3-研究下ZuulProxyAutoConfiguration" class="headerlink" title="4.3 研究下ZuulProxyAutoConfiguration"></a>4.3 研究下<strong>ZuulProxyAutoConfiguration</strong></h3><p>​    ZuulProxyAutoConfiguration这个类里面都是写bean配置，但是没有发现什么特别的，然后我们再去看下他的父类ZuulServerAutoConfiguration，这面里的内容看起来就比较像样了，什么Filter、Locator、Servlet、初始化什么的，这里有个特别的就是zuulServlet，一般web项目多事Servlet，我们可以在这打个段点，待会启动来看（这里直接就说了，这就是入口）</p><p><img src="/2020/11/01/SpringCloud源码详解-Zull源码深度剖析/image-20201101210456549.png" alt="image-20201101210456549"></p><h3 id="4-4-研究下ZuulServlet"><a href="#4-4-研究下ZuulServlet" class="headerlink" title="4.4 研究下ZuulServlet"></a>4.4 研究下ZuulServlet</h3><p>​    这里面很熟悉，init(),service()方法。初始化的时候搞个ZuulRunner，然后再server的时候使用ZuulRunner来执行各个过滤器。pre-&gt;rout-&gt;post，中途出错的话再支持error，其实大的流程就到这来结束了。下面我们来分析一下，里面的过滤器。</p><p><img src="/2020/11/01/SpringCloud源码详解-Zull源码深度剖析/image-20201101210620895.png" alt="image-20201101210620895"></p><p><img src="/2020/11/01/SpringCloud源码详解-Zull源码深度剖析/image-20201101210647156.png" alt="image-20201101210647156"></p><h3 id="4-5-看下Pre-Filter（preRoute-方法）"><a href="#4-5-看下Pre-Filter（preRoute-方法）" class="headerlink" title="4.5 看下Pre Filter（preRoute()方法）"></a>4.5 看下Pre Filter（preRoute()方法）</h3><p>其实里面就是去拿Filter为pre的所有过滤器，然后根据顺序执行</p><p><img src="/2020/11/01/SpringCloud源码详解-Zull源码深度剖析/image-20201101211700501.png" alt="image-20201101211700501"></p><p><img src="/2020/11/01/SpringCloud源码详解-Zull源码深度剖析/image-20201101211754008.png" alt="image-20201101211754008"></p><p>所有的Pre过滤器及顺序入下，</p><ul><li>-3：ServletDetectionFilter</li><li>-2：Servlet30WrapperFilter</li><li>-1：FromBodyWrapperFilter</li><li>1：DebugFilter</li><li>5：PreDecorationFilter</li></ul><p>我们可以去依次看上面的Pre过滤器，其实都没啥类容，最核心多的就是PreDecorationFilter，简单看下代码，就是去读我们配置带application.yml中的配置，然后进行匹配，换成配置后的路径。本身没有什么技术难度。到此Pre就执行完了。下面看下Routing Filter。</p><h3 id="4-6-Routing-Filter"><a href="#4-6-Routing-Filter" class="headerlink" title="4.6 Routing Filter"></a>4.6 Routing Filter</h3><ul><li><p>10：RibbonRoutingFilter-》将请求转发到对应的服务。</p><p>​    我们看到这里就是先封装一个RibbonCommandContext然后再转发，调用的是forward。这里我们不去看细节，看到Ribbon和Command其实这是跟Ribbon和Hystrix相关，这里我们就简单的理解为转发到对应多的服务，到时候讲完Ribbon和Hystrix在回来看。简单的理解就是，他去注册中心找到对应的服务列表，然后选择一个服务，包装成Hystrix的Command通过Http的方式调用接口执行。</p></li></ul><p><img src="/2020/11/01/SpringCloud源码详解-Zull源码深度剖析/image-20201101212753545.png" alt="image-20201101212753545"></p><ul><li><p>100：SimpleHostRoutingFilter-》将请求转发到具体的url地址</p><p>​    这就是转发到对应的url上，其实很少用，因为我们大部分都是跟注册中心继承的，里面就是对参数啊，url这些进行了处理，然后调用对应的url        </p></li><li><p>500：SendForwardFilter-》将请求转发到zuul网关服务自己的一个接口上去，这个没什么好说的。就是转发到自己的一个接口上</p></li></ul><h3 id="4-7-Post-Filter-返回页面"><a href="#4-7-Post-Filter-返回页面" class="headerlink" title="4.7 Post Filter 返回页面"></a>4.7 Post Filter 返回页面</h3><ul><li><p>1000：SendResponseFilter</p><p>看方法就是，添加了一个返回头，然后再调用OutputStream outStream = servletResponse.getOutputStream();返回到前台，这其实没什么的。</p><p><img src="/2020/11/01/SpringCloud源码详解-Zull源码深度剖析/image-20201101214235592.png" alt="image-20201101214235592"></p><h3 id="4-8-Error-Filter错误过滤器"><a href="#4-8-Error-Filter错误过滤器" class="headerlink" title="4.8 Error Filter错误过滤器"></a>4.8 Error Filter错误过滤器</h3><p>​    SendErrorFilter：之前的pre阶段、route阶段、post阶段，任何一个阶段抛出了异常，都会执行SendErrorFilter</p><p>​    我们可以自己写一个controller，专门来处理zuul的所有异常报错，这样的话就可以实现统一的异常处理，默认情况下会将异常信息输出到浏览器中去，这样体验不是特别好。</p><p><img src="/2020/11/01/SpringCloud源码详解-Zull源码深度剖析/image-20201101214559324.png" alt="image-20201101214559324"></p></li></ul><h2 id="五、总结"><a href="#五、总结" class="headerlink" title="五、总结"></a>五、总结</h2><p>​    其实Zull的源码还是很简单的，大概就是几个Filter的处理，里面涉及的Ribbon和Hystrix后面看完了就知道，他是如何进行限流降级的，他其实就是对Hystrix的使用。下面来一张总结的图。</p><p><img src="/2020/11/01/SpringCloud源码详解-Zull源码深度剖析/image-20201101224841518.png" alt="image-20201101224841518"></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;一、网关的作用&quot;&gt;&lt;a href=&quot;#一、网关的作用&quot; class=&quot;headerlink&quot; title=&quot;一、网关的作用&quot;&gt;&lt;/a&gt;一、网关的作用&lt;/h2&gt;&lt;p&gt;​    主要起到请求转发和统一功能的处理。要是没有网关，前端调后台接口的时候就必须知道后端服务的地
+      
+    
+    </summary>
+    
+      <category term="SpringCloud源码" scheme="http://yoursite.com/categories/SpringCloud%E6%BA%90%E7%A0%81/"/>
+    
+    
+      <category term="源码解析" scheme="http://yoursite.com/tags/%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/"/>
+    
+      <category term="SpringCloud源码" scheme="http://yoursite.com/tags/SpringCloud%E6%BA%90%E7%A0%81/"/>
+    
+  </entry>
   
   <entry>
     <title>MySQL_01_数据更新的流程？底层如何执行？</title>
